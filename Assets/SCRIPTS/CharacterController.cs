@@ -88,6 +88,7 @@ public class CharacterController : MonoBehaviour
         rigidBody.velocity = new Vector2(inputMovimiento * velocidad , rigidBody.velocity.y);
 
         gestionOrientacion(inputMovimiento);
+        Agacharse();
     }
     
     void gestionOrientacion(float inputMovimiento)
@@ -104,7 +105,7 @@ public class CharacterController : MonoBehaviour
         if(collision.gameObject.tag == "Barro")
         {
             AudioManager.Instance.ReproducirSonido(sonidoStartled);
-            velocidad = 5.5f;
+            velocidad = 2.5f;
             animator.Play("Slip");
         }
 
@@ -145,5 +146,28 @@ public class CharacterController : MonoBehaviour
         }
     }
 
+    private void Agacharse()
+    {
+        if (EstaEnPiso()) { 
+            if (Input.GetKey(KeyCode.S))
+            {
+                animator.SetBool("Agachada", true);
+                velocidad = 0f;
+
+            }
+            else
+            {
+                animator.SetBool("Agachada", false);
+                velocidad = 10f;
+
+            }
+        }
+        else
+        {
+            animator.SetBool("Agachada", false);
+            velocidad = 10f;
+
+        }
+    }
 
 }
